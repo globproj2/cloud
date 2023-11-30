@@ -1,0 +1,35 @@
+version: "3"
+
+networks:
+    xarxa_gp1f4a9:
+        driver: bridge
+
+services:
+    mysql_server:
+        image: mysql:5.7
+        container_name: mysql_gp1f4a9
+        # tty: true
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./sql:/sql
+            - ./dades:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: FjeClot2324@
+            MYSQL_DATABASE: bd_gp1f4a9
+            MYSQL_USER: asix2
+            MYSQL_PASSWORD: FjeClot2324#
+        networks:
+            - xarxa_gp1f4a9
+
+    app_server:
+         build: .
+         container_name: app_gp1f4a9 
+         ports:
+             - "80:80"
+         volumes:
+              - ./app:/var/www/html
+         depends_on:
+              - mysql_server
+         networks:
+              - xarxa_gp1f4a9
